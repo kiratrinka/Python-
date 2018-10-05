@@ -1,6 +1,14 @@
-a = input('Enter the base of a right triangle ')
-b = input('Enter the height of a right triangle ')
-a = int (a)
-b = int (b)
-s = a*b/2
-print ('The area of a right triangle is %s' % (s))
+while True:
+    a = input('Enter the base of a right triangle ')
+    if  not a.isdigit():
+        print ('enter integer')
+    else:
+        a = int (a)
+        b = input('Enter the height of a right triangle ')
+        if not b.isdigit():
+            print ('enter integer')
+        else:
+            b = int (b)
+            s = a*b/2
+            print ('The area of a right triangle is %s' % (s))
+            break
