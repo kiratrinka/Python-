@@ -10,7 +10,7 @@ funnel_by_month = {}
 # создаем словарь, где будут храниться страницы / create a dictionary where pages will be stored
 funnel_by_page = {}
 
-with open('click_stream3.csv', mode='r') as csv_file:  # открываем файл / open file
+with open('name.csv', mode='r') as csv_file:  # открываем файл / open file
     # читаем файл / read the file
     csv_reader = csv.DictReader(csv_file, fieldnames=['ID', 'page', 'date', 'device', 'gender'])
 
