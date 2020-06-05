@@ -1,0 +1,41 @@
+import csv
+import copy
+
+# создаем словарь, где будут храниться словари / create a dictionary where dictionaries will be stored
+funnel_by_gender = {}
+# создаем словарь, где будут храниться устройства / create a dictionary where devices will be stored
+funnel_by_device = {}
+# создаем словарь, где будут храниться месяца / create a dictionary where the months will be stored
+funnel_by_month = {}
+# создаем словарь, где будут храниться страницы / create a dictionary where pages will be stored
+funnel_by_page = {}
+
+with open('click_stream3.csv', mode='r') as csv_file:  # открываем файл / open file
+    # читаем файл / read the file
+    csv_reader = csv.DictReader(csv_file, fieldnames=['ID', 'page', 'date', 'device', 'gender'])
+
+    # проходим циклом по объекту csv_reader / loop through csv_reader
+    for row in csv_reader:  # берем строку из объекта csv_reader / we take a line from the csv_reader object
+
+        page = list(row.items())[1][1]  # вытаскиваем название страницы / pull out the page title
+        event_date = list(row.items())[2][1][:-3]  # вытаскиваем дату в формате YYYY-MM / pull out the date in the format YYYY-MM
+        device = list(row.items())[3][1]  # вытаскиваем название усройства / pull out the name of the device
+        gender = list(row.items())[4][1]  # вытаскиваем пол пользователя / pull out the user's gender
+        #  заполняем словари ключами / fill dictionaries with keys
+        funnel_by_page[page] = 0
+        funnel_by_month[event_date] = funnel_by_page.copy()
+        funnel_by_device[device] = funnel_by_month.copy()
+        funnel_by_gender[gender] = copy.deepcopy(funnel_by_device)
+
+    csv_file.seek(0)  # в начало файла / to the beginning of the file
+    for row in csv_reader:
+        device = list(row.items())[3][1]
+        event_date = list(row.items())[2][1][:-3]
+        page = list(row.items())[1][1]
+        gender = list(row.items())[4][1]
+        #  счётчик / counter
+        funnel_by_gender[gender][device][event_date][page] += 1
+
+for key, value in funnel_by_gender.items():
+    print(key, ':', str(value), sep='')
+
